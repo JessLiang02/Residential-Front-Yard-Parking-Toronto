@@ -52,7 +52,7 @@ The dataset reflects information meticulously collected and maintained by Toront
 
 By focusing on these translated data points, we ensure that our analysis is grounded in how parking infrastructure and policies manifest in practice. This alignment enables us to investigate the relationships between geographical (ward-level) and structural (parking type) predictors and the likelihood of a property having more than one parking space. The dataset thus serves as a bridge between real-world urban phenomena and quantitative analysis, allowing for meaningful insights into residential parking dynamics. Additionally, the data section explores the implications of these measurement processes, highlighting potential limitations, such as the possibility of informal or unregistered parking arrangements that are not captured by the dataset. Such omissions could introduce biases or underreport the true extent of parking availability in some neighborhoods.
 
-Furthermore, the data section underscores the importance of understanding the context in which the dataset was generated. For instance, while the dataset is robust in documenting licensed parking arrangements, it may not fully capture unlicensed modifications made by homeowners or discrepancies between zoning policies and actual usage. These gaps emphasize the need for cautious interpretation of the findings, as well as the importance of complementing administrative datasets with supplementary data sources, such as surveys or field observations, in future research. By addressing these nuances, the data section ensures a comprehensive understanding of the dataset's origins, its representational scope, and its role in analyzing Toronto's residential parking landscape.
+Furthermore, the data section underscores the importance of understanding the context in which the dataset was generated. For instance, while the dataset is robust in documenting licensed parking arrangements, it may not fully capture unlicensed modifications made by homeowners or discrepancies between zoning policies and actual usage. These gaps emphasize the need for cautious interpretation of the findings, as well as the importance of complementing administrative datasets with supplementary data sources, such as surveys or field observations, in future research. By addressing these nuances, the data section ensures a comprehensive understanding of the dataset's origins, its representational scope, and its role in analyzing Toronto's residential parking landscape. More details are provided in [Appendix -@sec-survey-details].
 
 ## Outcome variable
 
@@ -234,9 +234,6 @@ While this study provides valuable insights, it is not without limitations. Firs
 
 # Appendix {-}
 
-
-# Additional data details
-
 # Model details {#sec-model-details}
 
 ## Posterior predictive check
@@ -285,6 +282,76 @@ plot(first_model, "trace")
 
 plot(first_model, "rhat")
 ```
+
+# Survey details {#sec-survey-details}
+
+**Importance of Surveys and Sampling in Open Data**
+
+Surveys and sampling techniques are foundational to data collection in many of the datasets hosted on the City of Toronto's Open Data Portal. These datasets often include observational data derived from surveys conducted by city departments to inform public policies, track progress on civic issues, or manage resources effectively. Understanding the nuances of surveys and sampling methods is essential for interpreting such data accurately, ensuring its quality, and recognizing its limitations.
+
+**Types of Sampling Techniques**
+
+The representativeness and reliability of data often depend on the sampling techniques used during its collection. The following sampling techniques are commonly applied in observational studies and surveys:
+
+- Simple Random Sampling (SRS): Ensures each individual in the population has an equal probability of selection. For example, a dataset tracking public transit usage might rely on SRS to obtain unbiased estimates of ridership patterns.
+
+- Stratified Sampling: The population is divided into strata based on certain characteristics, and samples are drawn from each stratum. For instance, datasets on housing affordability may use stratified sampling to ensure representation across income groups or geographic areas.
+
+- Cluster Sampling: Entire clusters, such as neighborhoods or wards, are sampled instead of individuals. This method is cost-effective for large-scale surveys but may introduce design effects that affect variance estimates.
+
+- Convenience Sampling: Data is collected from readily available sources. While not ideal for generalizations, it is common in some City of Toronto datasets due to resource constraints.
+
+- Systematic Sampling: Every nth individual is selected from a list, providing a more structured approach that is sometimes easier to implement than SRS.
+
+**Challenges in Observational Data**
+
+- Observational data - data collected without intervention—is prevalent in datasets like residential front yard parking, traffic counts, or community service usage. Such data comes with unique challenges:
+
+- Bias: Selection bias and non-response bias can occur if survey participants are not representative of the population.
+
+- Confounding Variables: Observational data often captures multiple variables simultaneously, making it difficult to establish causal relationships without accounting for confounders.
+
+- Data Quality: Observational data depends on the accuracy of the instruments or methods used during collection. Issues like misreporting or gaps in data can lead to misleading conclusions.
+
+**Residential Front Yard Parking Dataset**
+
+The "Residential Front Yard Parking" dataset includes observational data about licensed parking spaces across Toronto. Key considerations for this dataset are:
+
+- Sampling Frame: The dataset applies only to residential addresses within Toronto's city boundaries. This limitation highlights the importance of clearly defining the population of interest.
+
+- Variable Observations: Variables such as the number of licensed spaces and parking type are inherently observational and recorded based on city licensing records.
+
+- Non-transferability Note: The license for a parking space is not transferable to new property owners, introducing an additional layer of complexity for longitudinal analysis.
+
+**Data Quality Considerations in Surveys**
+
+The City of Toronto has implemented the Data Quality Score to enhance transparency about dataset usability. This score evaluates datasets based on usability, metadata, freshness, completeness, and accessibility. Survey datasets, in particular, benefit from:
+
+- Metadata: Clear definitions for variables, like "Parking Type" or "Ward," ensure consistent interpretation.
+
+- Completeness: Missing data points can lead to biased inferences. For example, a lack of data for certain wards might misrepresent city-wide patterns.
+
+- Freshness: Regular updates are critical for dynamic datasets like those related to traffic or housing trends.
+
+**Implications for Analysis**
+
+When using open data for research or policy-making, understanding the underlying survey design and sampling methodology is critical:
+
+- Generalizability: Can the dataset's findings be extrapolated to the larger population? This depends on how well the sampling method ensures representativeness.
+
+- Causal Inference: While observational data is valuable for identifying correlations, caution must be exercised in drawing causal conclusions.
+
+- Error Margins: Sampling error and non-sampling errors (e.g., measurement errors) must be factored into the analysis to avoid overconfidence in results.
+
+**Recommendations for Users of Open Data**
+
+- Evaluate Metadata: Always review the "Data Features" and "Limitations" sections for information about sampling methods and data quality.
+
+- Use Statistical Weighting: If the dataset includes survey weights, apply them to account for unequal probabilities of selection or non-response.
+
+- Cross-validate with Other Sources: Compare findings from the dataset with external sources to check for consistency and validate conclusions.
+
+This appendix underscores the significance of understanding surveys, sampling, and observational data when working with open datasets. These principles are crucial for ensuring that analyses are robust and aligned with the inherent characteristics of the data.
 
 \newpage
 
