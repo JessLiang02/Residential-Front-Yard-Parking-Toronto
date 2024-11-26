@@ -239,7 +239,6 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 pp_check(first_model) +
   theme_classic() +
   theme(legend.position = "bottom")
-
 posterior_vs_prior(first_model) +
   theme_minimal() +
   scale_color_brewer(palette = "Set1") +

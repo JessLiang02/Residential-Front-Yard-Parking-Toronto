@@ -19,8 +19,8 @@ simulated_data <- read_csv("data/00-simulated_data/simulated_data.csv")
 # Test 1: Check that all ward names are valid
 test_that("All ward names are valid", {
   valid_ward_names <- c(
-    "Eglinton-Lawrence", "Etobicoke-Lakeshore", "Etobicoke Centre", 
-    "Parkdale-High Park", "Trinity-Spadina", "York Centre", 
+    "Eglinton-Lawrence", "Etobicoke-Lakeshore", "Etobicoke Centre",
+    "Parkdale-High Park", "Trinity-Spadina", "York Centre",
     "York West", "York South-Weston"
   )
   expect_true(all(simulated_data$ward %in% valid_ward_names))

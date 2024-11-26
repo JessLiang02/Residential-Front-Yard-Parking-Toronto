@@ -16,14 +16,13 @@ library(rstanarm)
 analysis_data <- read_parquet("data/02-analysis_data/analysis_data.parquet")
 
 ### Model data ####
-analysis_data <- analysis_data %>%
-  mutate(morespace1 = ifelse(morespace=="Yes", 1, 0))
 
 # Fit Bayesian logistic regression model
 logistic_model <- stan_glm(
   formula = morespace1 ~ parking_type + ward,
-  data = analysis_data,
-  family = binomial(), 
+  data = analysis_data %>%
+    mutate(morespace1 = ifelse(morespace == "Yes", 1, 0)),
+  family = binomial(),
   prior = normal(location = 0, scale = 10, autoscale = TRUE), # Noninformative prior for coefficients
   prior_intercept = normal(location = 0, scale = 10, autoscale = TRUE), # Noninformative prior for intercept
   seed = 853
@@ -34,5 +33,3 @@ saveRDS(
   logistic_model,
   file = "models/logistic_model.rds"
 )
-
-

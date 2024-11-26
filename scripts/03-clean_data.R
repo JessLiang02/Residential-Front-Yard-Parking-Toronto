@@ -20,7 +20,7 @@ cleaned_data <-
   janitor::clean_names() %>%
   select(licensed_spaces, parking_type, ward) %>%
   filter(licensed_spaces >= 1) %>%
-  mutate(morespace = ifelse(licensed_spaces > 1, 1, 0)) %>% 
+  mutate(morespace = ifelse(licensed_spaces > 1, 1, 0)) %>%
   select(-licensed_spaces) %>%
   mutate(
     ward_name = case_when(
@@ -46,19 +46,20 @@ cleaned_data <-
       ward %in% c(9, 10) ~ "York Centre",
       ward %in% c(11, 12) ~ "York South-Weston",
       ward %in% c(7, 8) ~ "York West",
-      TRUE ~ "Unknown" 
+      TRUE ~ "Unknown"
     )
-  ) %>% select(-ward) %>%
+  ) %>%
+  select(-ward) %>%
   rename(ward = ward_name) %>%
   tidyr::drop_na()
 
 
 analysis_data <- cleaned_data %>%
-  count(ward) %>% 
-  filter(n > 100) %>% 
+  count(ward) %>%
+  filter(n > 100) %>%
   inner_join(cleaned_data, by = "ward") %>%
-  select(-n) %>% 
-  mutate(morespace = ifelse(morespace==1, "Yes", "No"))
+  select(-n) %>%
+  mutate(morespace = ifelse(morespace == 1, "Yes", "No"))
 
 #### Save data ####
 write_parquet(analysis_data, "data/02-analysis_data/analysis_data.parquet")

@@ -51,6 +51,3 @@ ggplot(morespace_vs_parking, aes(x = parking_type, y = percentage, fill = factor
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
-

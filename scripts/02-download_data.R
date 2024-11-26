@@ -19,10 +19,8 @@ data_packages <- search_packages("Residential Front Yard Parking")
 data_resources <- data_packages %>%
   list_package_resources()
 # Retrieve the second resource (the .csv file)  and save it as a dataframe
-raw_data <- data_resources[2,] %>%
+raw_data <- data_resources[2, ] %>%
   get_resource()
 
 #### Save data ####
-write_csv(raw_data, "data/01-raw_data/raw_data.csv") 
-
-         
+write_csv(raw_data, "data/01-raw_data/raw_data.csv")

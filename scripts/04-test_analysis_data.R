@@ -20,8 +20,8 @@ analysis_data <- read_parquet("data/02-analysis_data/analysis_data.parquet")
 # Test 1: Check that all ward names are valid
 test_that("All ward names are valid", {
   valid_ward_names <- c(
-    "Eglinton-Lawrence", "Etobicoke-Lakeshore", "Etobicoke Centre", 
-    "Parkdale-High Park", "Trinity-Spadina", "York Centre", 
+    "Eglinton-Lawrence", "Etobicoke-Lakeshore", "Etobicoke Centre",
+    "Parkdale-High Park", "Trinity-Spadina", "York Centre",
     "York West", "York South-Weston"
   )
   expect_true(all(analysis_data$ward %in% valid_ward_names))
