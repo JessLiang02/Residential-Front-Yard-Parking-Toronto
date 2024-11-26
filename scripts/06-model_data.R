@@ -21,7 +21,7 @@ analysis_data <- analysis_data %>%
 
 # Fit Bayesian logistic regression model
 logistic_model <- stan_glm(
-  formula = morespace1 ~ ward + parking_type,
+  formula = morespace1 ~ parking_type + ward,
   data = analysis_data,
   family = binomial(), 
   prior = normal(location = 0, scale = 10, autoscale = TRUE), # Noninformative prior for coefficients

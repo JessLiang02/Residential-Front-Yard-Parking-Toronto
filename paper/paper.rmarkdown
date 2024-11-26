@@ -20,6 +20,8 @@ library(tidyverse)
 library(arrow)
 ```
 
+
+
 # Introduction
 
 Residential parking availability is a critical aspect of urban planning, particularly in dense metropolitan areas like Toronto. The rise in vehicle ownership and the increasing demand for parking spaces have created challenges for both homeowners and city planners. This paper examines the factors influencing the availability of more than one parking space in residential properties, using a dataset from Toronto’s Open Data Portal that documents front yard parking permits and related attributes. While parking availability has been explored in terms of policy and infrastructure, few studies have systematically analyzed how structural and geographic factors combine to affect the likelihood of multiple parking spaces at a property. This paper addresses this gap by applying a logistic regression framework to examine how location and parking type impact this outcome.
@@ -72,6 +74,8 @@ Another important factor is the type of parking available on the property, such 
 
 @fig-type illustrates the proportion of responses for "more than 1 parking space" across the three parking types: Boulevard Parking, Front Yard, and Widened Driveway. The y-axis represents the percentage, scaled from 0% to 100%, while the x-axis shows the parking types. For Boulevard Parking, a larger proportion of "Yes" responses (blue) is observed compared to the other parking types, where "No" responses (red) dominate overwhelmingly. Front Yard and Widened Driveway parking types show minimal "Yes" responses, highlighting the disparity in the availability of additional parking spaces based on parking type. This visualization highlights how parking type correlates with the likelihood of having more than one parking space.
 
+
+
 ```{r}
 #| label: fig-type
 #| fig-cap: The figure illustrates the distribution of "More than 1 parking space" (Yes/No) as a percentage across various wards. Each bar represents a ward, and the height of the stacked segments within each bar corresponds to the proportion of responses for "Morespace." The responses "No" (red) and "Yes" (blue) sum to 100% for each ward.
@@ -99,7 +103,11 @@ ggplot(morespace_vs_parking, aes(x = parking_type, y = percentage, fill = factor
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
+
+
 @fig-ward provides a visual comparison of the proportion of residential addresses with more than one parking space across wards in the city of Toronto. The y-axis represents the percentage, scaled from 0% to 100%, while the x-axis shows the wards under study. The red portion of each bar indicates the percentage of "No" responses, whereas the blue portion indicates the percentage of "Yes" responses. From the chart, it is evident that "No" dominates the responses in all wards, with "Yes" contributing only a small proportion across the board. The distribution highlights the consistency in the prevalence of "No" responses irrespective of ward, with slight variations in the proportion of "Yes" responses between different wards. This visualization underscores potential patterns or uniformity in the proportion of more than 1 parking space within the study area.
+
+
 
 ```{r}
 #| label: fig-ward
@@ -125,6 +133,8 @@ ggplot(morespace_vs_ward, aes(x = ward, y = percentage, fill = factor(morespace)
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
+
+
 
 # Model {#sec-model}
 
@@ -163,6 +173,8 @@ Our results are summarized in @tbl-modelresults. The model results provide insig
 
 The geographic location, as captured by the ward variable, also exhibits notable effects. Properties in York South-Weston have the highest positive association (0.90) with the likelihood of more than one parking space, followed by Etobicoke Centre (0.54) and York West (0.44). Conversely, properties in Etobicoke-Lakeshore (-0.64) and Parkdale-High Park (-0.57) show lower likelihoods of multiple parking spaces, while other wards exhibit smaller or non-significant effects. These geographic variations likely reflect differences in zoning regulations, property sizes, and urban layouts across Toronto. Although the model explains only a modest proportion of the variability in the outcome ($R^2$ = 0.029), the significant predictors offer valuable insights into structural and locational influences on residential parking availability. The model diagnostics, including log-likelihood, ELPD, and RMSE, indicate reasonable fit but suggest opportunities for further refinement, such as incorporating additional predictors, not included in the analysis dataset, to better capture complex relationships.
 
+
+
 ```{r}
 #| echo: false
 #| eval: true
@@ -190,6 +202,8 @@ modelsummary::modelsummary(
   fmt = 2
 )
 ```
+
+
 
 # Discussion {#sec-discussion}
 
@@ -226,6 +240,8 @@ In @fig-ppcheckandposteriorvsprior-1 we implement a posterior predictive check. 
 
 In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. The shrinkage observed in the posterior distributions highlights the influence of the data in updating the initial beliefs (priors). For example, coefficients for parking type and ward display distinct shifts from the prior, reflecting the data's strong signal in identifying their effects. The comparison also shows that the priors were appropriately weakly informative, allowing the data to dominate the estimation process. This assessment ensures that the model outputs are data-driven and not overly influenced by prior assumptions.
 
+
+
 ```{r}
 #| eval: true
 #| echo: false
@@ -247,11 +263,15 @@ posterior_vs_prior(first_model) +
   coord_flip()
 ```
 
+
+
 ## Diagnostics
 
 @fig-stanareyouokay-1 is a trace plot. It shows the sampling paths of the four Markov chains for each parameter in the model. The plot demonstrates that all chains mix well and explore the posterior distribution without noticeable patterns or divergences. The oscillations within a stable range indicate that the chains have reached convergence, suggesting that the samples are representative of the posterior distribution. This provides confidence in the reliability of the parameter estimates derived from the model.
 
 @fig-stanareyouokay-2 is an Rhat plot. It shows the Gelman-Rubin diagnostic $(R)$ for each parameter in the model, which measures the convergence of the chains. All parameters have $\hat{R}$ values very close to 1, indicating that the chains have converged well and there is no significant between-chain variation. This suggests that the model's posterior samples are valid and that the results can be interpreted with confidence. Additionally, the lack of any outliers in the $\hat{R}$ values further reinforces the robustness of the sampling process.
+
+
 
 ```{r}
 #| echo: false
@@ -268,7 +288,10 @@ plot(first_model, "trace")
 plot(first_model, "rhat")
 ```
 
+
+
 \newpage
 
 # References
+
 
