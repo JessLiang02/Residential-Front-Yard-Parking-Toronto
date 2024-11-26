@@ -24,7 +24,7 @@ library(arrow)
 
 Residential parking availability is a critical aspect of urban planning, particularly in dense metropolitan areas like Toronto. The rise in vehicle ownership and the increasing demand for parking spaces have created challenges for both homeowners and city planners. This paper examines the factors influencing the availability of more than one parking space in residential properties, using a dataset from Toronto’s Open Data Portal that documents front yard parking permits and related attributes. While parking availability has been explored in terms of policy and infrastructure, few studies have systematically analyzed how structural and geographic factors combine to affect the likelihood of multiple parking spaces at a property. This paper addresses this gap by applying a logistic regression framework to examine how location and parking type impact this outcome.
 
-The primary estimand of interest is the conditional probability of a residential property having more than one parking space, given specific predictors such as geographic location (ward) and parking type. This estimand is operationalized as a binary outcome ("Yes" for more than one space, "No" otherwise) and modeled using predictors derived from administrative data on residential parking in Toronto. The goal is to understand how these factors jointly influence the likelihood of additional parking capacity while controlling for variability in urban layouts and zoning practices across the city.
+The primary estimand of interest is the conditional probability of a residential property having more than one parking space, given specific predictors such as geographic location (ward) and parking type. This estimand is operationalized through a binary outcome ("Yes" for more than one space, "No" otherwise) and modeled using predictors derived from administrative data on residential parking in Toronto. The goal is to understand how these factors jointly influence the likelihood of additional parking capacity while controlling for variability in urban layouts and zoning practices across the city.
 
 The analysis reveals several key findings. First, parking type plays a significant role in determining whether a property has more than one parking space. Properties with boulevard parking show a higher likelihood of accommodating additional spaces compared to those with front yard or widened driveway parking, which are typically more constrained. Second, geographic location also emerges as a modest predictor, with some wards exhibiting slightly higher probabilities of multiple parking spaces, likely due to differences in zoning regulations and residential design. However, across all wards, the prevalence of properties with more than one parking space remains low, underscoring the challenges of expanding parking availability in a densely populated urban environment.
 
@@ -36,9 +36,9 @@ The structure of this paper is organized as follows. @sec-data provides an overv
 
 ## Overview
 
-For this analysis, we used the R programming language [@citeR] to explore data on residential front yard parking in Toronto. The dataset, sourced from Toronto’s Open Data Portal [@opendata], provides detailed information on parking permissions and associated attributes across various residential areas in the city. Key aspects analyzed include the type of parking (e.g., front yard, boulevard, or widened driveway), the presence of more than one parking space, and geographic differences across city wards.
+For this analysis, we used the R programming language [@citeR] to explore data on residential front yard parking in Toronto. The dataset, sourced from Toronto’s Open Data Portal [@opendata; @toronto_front_yard_parking], provides detailed information on parking permissions and associated attributes across various residential areas in the city. Key aspects analyzed include the type of parking (e.g., front yard, boulevard, or widened driveway), the presence of more than one parking space, and geographic differences across city wards.
 
-A range of `R` packages was employed for efficient data manipulation, modeling, and visualization. The `tidyverse` package suite formed the backbone of data processing, enabling seamless and reproducible workflows [@tidyverse]. File path management was handled using `here`, ensuring reliable and consistent access to the dataset [@citehere]. Data cleaning tasks were performed with `janitor`, which helped identify and rectify inconsistencies in the data [@citejanitor]. Bayesian statistical modeling was conducted using `rstanarm`, allowing for robust inference and clear interpretation of results [@stan]. The presentation of model outputs was streamlined using `modelsummary`, which facilitated the generation of concise and informative summaries [@modelsummary]. Additionally, `arrow` enabled fast and memory-efficient handling of the dataset, which was crucial for analyzing this spatially diverse data [@citearrow].
+A range of `R` packages was employed for efficient data manipulation, modeling, and visualization. The `tidyverse` package suite formed the backbone of data processing, enabling seamless and reproducible workflows [@tidyverse]. File path management was handled using `here`, ensuring reliable and consistent access to the dataset [@citehere]. Data cleaning tasks were performed with `janitor`, which helped identify and rectify inconsistencies in the data [@citejanitor]. Bayesian statistical modeling was conducted using `rstanarm`, allowing for robust inference and clear interpretation of results [@stan]. The presentation of model outputs was streamlined using `modelsummary`, which facilitated the generation of concise and informative summaries [@modelsummary]. Additionally, `arrow` enabled fast and memory-efficient handling of the dataset, which was crucial for analyzing this spatially diverse data [@citearrow]. Lastly, `testthat` was used to test the validity and integrity of the simulated and analysis datasets [@testthat].
 
 To maintain clarity and reproducibility, we adhered to best practices in workflow organization and analysis, as outlined in @tellingstories. These practices ensured that data manipulation, modeling, and visualization were seamlessly integrated into a coherent analytical pipeline. This approach supported an in-depth investigation of residential front yard parking trends and patterns across Toronto while ensuring transparency and replicability of results.
 
@@ -132,24 +132,42 @@ The objective of our modeling strategy is twofold. First, we aim to understand t
 
 ## Model set-up
 
-Define $y_i$ as an indicator of whether a property has more than one parking space, where $y_i=1$ for properties with more than one space and $y_i=0$ otherwise. The primary predictors include $x_{1 i}$, the type of parking available on the property, and $x_{2 i}$, the geographic location (ward) of the property.
+Define $y_i$ as an indicator of whether a property has more than one parking space, where $y_i=1$ for properties with more than one space and $y_i=0$ otherwise. The predictors include $x_{1 i}$, the type of parking available on the property, and $x_{2 i}$, the geographic location (ward). Parking type is included as categorical variables for "Front Yard" and "Widened Driveway," with "Boulevard Parking" serving as the reference category. Wards are included as a set of dummy variables, with Etobicoke-Lakeshore as the reference group.
 
-The logistic regression model is specified as follows:
+The model is specified as:
 
 $$
 \begin{aligned}
-y_i \mid \pi_i & \sim \operatorname{Bernoulli}\left(\pi_i\right) \\
-\operatorname{logit}\left(\pi_i\right) & =\alpha+\sum_j \beta_j x_{j i}
+& y_i \mid \pi_i \sim \operatorname{Bernoulli}\left(\pi_i\right)
 \end{aligned}
 $$
 
-where $\pi_i$ represents the probability that property $i$ has more than one parking space, $\alpha$ is the intercept, and $\beta_j$ are the coefficients for the predictors.
+$$
+\operatorname{logit}\left(\pi_i\right)=\alpha+\beta_1 \text { FrontYard}_i+\beta_2 \text { WidenedDriveway}_i+\gamma_1 \text { EtobicokeCentre}_i+\gamma_2 \text { ParkdaleHighPark}_i+\gamma_3 \text { TrinitySpadina}_i+\gamma_4 \text { YorkCentre}_i+ \\ \gamma_5 \text { YorkSouthWeston}_i+\gamma_6 \text { YorkWest}_i
+$$
 
-The priors for the coefficients and intercept are weakly informative, set as follows:
+Here, $\pi_i$ represents the probability that property $i$ has more than one parking space. The intercept $\alpha$ captures the baseline log-odds for properties in Etobicoke-Lakeshore with Boulevard Parking.
+
+Coefficients $\beta_1$ and $\beta_2$ measure the effect of "Front Yard" and "Widened Driveway" parking types relative to the reference category. The coefficients $\gamma_1, \ldots, \gamma_6$ capture the effects of specific wards compared to the baseline (Etobicoke-Lakeshore), explicitly:
+
+- $\gamma_1$ : Etobicoke Centre
+- $\gamma_2$ : Parkdale-High Park
+- $\gamma_3:$ Trinity-Spadina
+- $\gamma_4$ : York Centre
+- $\gamma_5$ :York South-Weston
+- $\gamma_6$ : York West
+
+The priors for the intercept and coefficients are weakly informative and specified as follows:
 
 $$
-\alpha \sim \operatorname{Normal}(0,10), \quad \beta_j \sim \operatorname{Normal}(0,10)
+\begin{aligned}
+\alpha & \sim \operatorname{Normal}(0,10) \\
+\beta_1, \beta_2 & \sim \operatorname{Normal}(0,10) \\
+\gamma_1, \gamma_2, \gamma_3, \gamma_4, \gamma_5, \gamma_6 & \sim \operatorname{Normal}(0,10)
+\end{aligned}
 $$
+
+These priors reflect minimal prior knowledge, allowing the data to influence the posterior estimates while discouraging extreme values. The model estimates how parking type and geographic location jointly predict the likelihood of a property having more than one parking space, with the logistic link function ensuring predictions are appropriately bounded between 0 and 1.
 
 We fit the model in R [@citeR] using the `rstanarm` package from @stan. These priors ensure flexibility in the modeling process while allowing the data to drive the posterior estimates.
 
@@ -157,7 +175,7 @@ We fit the model in R [@citeR] using the `rstanarm` package from @stan. These pr
 
 This model is well-suited to the research question because the outcome variable, whether a property has more than one parking space, is binary. A logistic regression framework naturally models the relationship between this binary outcome and the predictors. Parking type and geographic location are included as predictors because they capture structural and locational influences on parking availability. Weakly informative priors ensure that the model is not overly constrained by prior beliefs, allowing the observed data to guide the estimates while guarding against overfitting.
 
-# Results {@sec-results}
+# Results {#sec-results}
 
 Our results are summarized in @tbl-modelresults. The model results provide insights into the factors influencing the likelihood of a property having more than one parking space. The intercept represents the baseline log-odds for properties with boulevard parking in wards not explicitly listed in the model. Among parking types, properties with front yard parking and widened driveway parking show significantly lower likelihoods of having more than one parking space compared to boulevard parking, as indicated by their strongly negative coefficients (-2.57 and -2.12, respectively). This suggests that the physical and spatial constraints associated with these parking types limit the capacity for additional parking. These results highlight the critical role of parking type in determining parking space availability, with boulevard parking offering more flexibility for accommodating additional spaces.
 
@@ -179,8 +197,9 @@ first_model <-
 #| echo: false
 #| eval: true
 #| label: tbl-modelresults
-#| tbl-cap: "Explanatory models of flight time based on wing width and wing length"
+#| tbl-cap: "Explanatory models of having more than parking space based on parking type and city ward."
 #| warning: false
+#| message: false
 
 modelsummary::modelsummary(
   list(
