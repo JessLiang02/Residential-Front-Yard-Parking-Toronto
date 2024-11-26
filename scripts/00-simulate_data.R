@@ -1,52 +1,52 @@
 #### Preamble ####
-# Purpose: Simulates a dataset of Australian electoral divisions, including the 
-  #state and party that won each division.
-# Author: Rohan Alexander
-# Date: 26 September 2024
-# Contact: rohan.alexander@utoronto.ca
+# Purpose: Simulates the residential parking dataset from the City of Toronto's Open Data Portal.
+# Author: Jing Liang
+# Date: 25 November 2024
+# Contact: jess.liang@mail.utoronto.ca
 # License: MIT
 # Pre-requisites: The `tidyverse` package must be installed
-# Any other information needed? Make sure you are in the `starter_folder` rproj
+# Any other information needed? Make sure you are in the `Residential_Front_Yard_Parking_Etobicoke` rproj
 
 
 #### Workspace setup ####
 library(tidyverse)
 set.seed(853)
 
+#### Simulate dataset ####
 
-#### Simulate data ####
-# State names
-states <- c(
-  "New South Wales",
-  "Victoria",
-  "Queensland",
-  "South Australia",
-  "Western Australia",
-  "Tasmania",
-  "Northern Territory",
-  "Australian Capital Territory"
+ward_probs <- c(0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125, 0.125) 
+parking_probs <- c(0.25, 0.5, 0.25) 
+morespace_probs <- c(0.95, 0.05)
+
+ward_names <- c(
+  "Eglinton-Lawrence", "Etobicoke-Lakeshore", "Etobicoke Centre", 
+  "Parkdale-High Park", "Trinity-Spadina", "York Centre", 
+  "York West", "York South-Weston"
 )
+parking_types <- c("Boulevard Parking", "Front Yard", "Widened Driveway")
+morespace_values <- c("No", "Yes")
 
-# Political parties
-parties <- c("Labor", "Liberal", "Greens", "National", "Other")
-
-# Create a dataset by randomly assigning states and parties to divisions
-analysis_data <- tibble(
-  division = paste("Division", 1:151),  # Add "Division" to make it a character
-  state = sample(
-    states,
-    size = 151,
-    replace = TRUE,
-    prob = c(0.25, 0.25, 0.15, 0.1, 0.1, 0.1, 0.025, 0.025) # Rough state population distribution
+# Simulate dataset
+simulated_data <- tibble(
+  ward = sample(
+    ward_names, 
+    size = 10000, 
+    replace = TRUE, 
+    prob = ward_probs
   ),
-  party = sample(
-    parties,
-    size = 151,
-    replace = TRUE,
-    prob = c(0.40, 0.40, 0.05, 0.1, 0.05) # Rough party distribution
+  parking_type = sample(
+    parking_types, 
+    size = 10000, 
+    replace = TRUE, 
+    prob = parking_probs
+  ),
+  morespace = sample(
+    morespace_values, 
+    size = 10000, 
+    replace = TRUE, 
+    prob = morespace_probs
   )
 )
 
-
 #### Save data ####
-write_csv(analysis_data, "data/00-simulated_data/simulated_data.csv")
+write_csv(simulated_data, "data/00-simulated_data/simulated_data.csv")

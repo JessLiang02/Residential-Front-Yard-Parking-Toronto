@@ -19,7 +19,6 @@ bibliography: references.bib
 #| message: false
 
 library(tidyverse)
-library(palmerpenguins)
 ```
 
 
@@ -35,7 +34,7 @@ Why it matters paragraph
 
 Telegraphing paragraph: The remainder of this paper is structured as follows. @sec-data....
 
-
+The structure of this paper is organized as follows. @sec-data introduces the data sources and the key variables utilized in our analysis, offering a comprehensive overview of the dataset and how the variables were selected. @sec-model outlines the modeling strategy, including the linear regression framework, along with its underlying assumptions and the rationale for the inclusion of specific predictors like state, pollster, and poll score. @sec-results presents the model results, emphasizing the significant factors driving Trump’s percentage support and analyzing any diagnostic issues such as heteroscedasticity and residual normality. @sec-discussion delves into the broader implications of our findings, discussing their relevance to polling accuracy, potential biases, and offering suggestions for future research to enhance predictive modeling in political contexts.
 
 
 
@@ -45,6 +44,10 @@ Telegraphing paragraph: The remainder of this paper is structured as follows. @s
 ## Overview
 
 We use the statistical programming language R [@citeR].... Our data [@shelter].... Following @tellingstories, we consider...
+
+For this analysis, we employed the R programming language [@citeR] to examine polling data on public sentiment before the election. Our dataset, sourced from FiveThirtyEight [@fivethirtyeight2024], offers a detailed snapshot of evolving public opinion. We explored key influences on percentage support, including the timing of the polls, pollster characteristics, and geographic differences.
+
+Several `R` packages were instrumental in performing data manipulation, modeling, and visualization. `Tidyverse` was the backbone for organizing and analyzing the data efficiently, allowing seamless integration of multiple tasks [@thereferencecanbewhatever]. `Here` streamlined file path handling, ensuring smooth data access across systems [@citehere]. We relied on `Janitor` for robust data cleaning, helping identify and fix potential inconsistencies [@citejanitor], and `rstanarm` facilitated the Bayesian stastistical modeling [@rstanarm]. Additionally, `Arrow` provided fast and memory-efficient access to large datasets, a critical factor for managing extensive polling data [@citearrow]. The structure of the codebase and workflow adhered to the best practices outlined in @tellingstories.
 
 Overview text
 
@@ -57,42 +60,60 @@ Some paragraphs about how we go from a phenomena in the world to an entry in the
 Add graphs, tables and text. Use sub-sub-headings for each outcome variable or update the subheading to be singular.
 
 
-
-Some of our data is of penguins (@fig-bills), from @palmerpenguins.
+@fig-type 
 
 ```{r}
-#| label: fig-bills
+#| label: fig-type
 #| fig-cap: Bills of penguins
-#| echo: false
-
-ggplot(penguins, aes(x = island, fill = species)) +
-  geom_bar(alpha = 0.8) +
-  scale_fill_manual(values = c("darkorange","purple","cyan4"),
-                    guide = "none") +
-  theme_minimal() +
-  facet_wrap(~species, ncol = 1) +
-  coord_flip()
-```
-
-Talk more about it.
-
-And also planes (@fig-planes). (You can change the height and width, but don't worry about doing that until you have finished every other aspect of the paper - Quarto will try to make it look nice and the defaults usually work well once you have enough text.)
-
-```{r}
-#| label: fig-planes
-#| fig-cap: Relationship between wing length and width
 #| echo: false
 #| warning: false
 #| message: false
 
-analysis_data <- read_csv(here::here("data/02-analysis_data/analysis_data.csv"))
+analysis_data <- read_parquet(here::here("data/02-analysis_data/analysis_data.parquet"))
 
-analysis_data |> 
-  ggplot(aes(x = width, y = length)) +
-  geom_point(alpha = 0.8) +
+# Summarize morespace percentages by parking type
+morespace_vs_parking <- analysis_data %>%
+  group_by(parking_type, morespace) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Barplot: Morespace (%) vs. Parking Type
+ggplot(morespace_vs_parking, aes(x = parking_type, y = percentage, fill = factor(morespace))) +
+  geom_bar(stat = "identity", position = "fill") +
+  labs(
+    x = "Parking Type",
+    y = "Percentage (%)",
+    fill = "More than 1 parking space"
+  ) +
   theme_minimal() +
-  labs(x = "Wing width (mm)",
-       y = "Wing length (mm)")
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
+
+@fig-ward provides a visual comparison of the proportion of "Morespace" responses across wards. The y-axis represents the percentage, scaled from 0% to 100%, while the x-axis shows the wards under study. The red portion of each bar indicates the percentage of "No" responses, whereas the blue portion indicates the percentage of "Yes" responses. From the chart, it is evident that "No" dominates the responses in all wards, with "Yes" contributing only a small proportion across the board. The distribution highlights the consistency in the prevalence of "No" responses irrespective of ward, with slight variations in the proportion of "Yes" responses between different wards. This visualization underscores potential patterns or uniformity in "Morespace" responses within the study area.
+
+```{r}
+#| label: fig-ward
+#| fig-cap: The figure illustrates the distribution of "More than 1 parking space" (Yes/No) as a percentage across various wards. Each bar represents a ward, and the height of the stacked segments within each bar corresponds to the proportion of responses for "Morespace." The responses "No" (red) and "Yes" (blue) sum to 100% for each ward.
+#| echo: false
+#| warning: false
+#| message: false
+
+# Summarize morespace percentages by ward
+morespace_vs_ward <- analysis_data %>%
+  group_by(ward, morespace) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  mutate(percentage = count / sum(count) * 100)
+
+# Barplot: Morespace (%) vs. Ward
+ggplot(morespace_vs_ward, aes(x = ward, y = percentage, fill = factor(morespace))) +
+  geom_bar(stat = "identity", position = "fill") +
+  labs(
+    x = "Ward",
+    y = "Percentage (%)",
+    fill = "More than 1 parking space"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 Talk way more about it. 

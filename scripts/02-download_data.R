@@ -1,11 +1,11 @@
 #### Preamble ####
-# Purpose: Downloads and saves the data from [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 11 February 2023 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Downloads the raw dataset from the City of Toronto's Open Data Portal.
+# Author: Jing Liang
+# Date: 25 November 2024
+# Contact: jess.liang@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: The `opendatatoronto, `tidyverse` packages must be installed
+# Any other information needed? Make sure you are in the `Residential_Front_Yard_Parking_Etobicoke` rproj
 
 
 #### Workspace setup ####
@@ -23,11 +23,6 @@ raw_data <- data_resources[2,] %>%
   get_resource()
 
 #### Save data ####
-write_csv(raw_data, "data/raw_data/ttc_bus_rawdata.csv") 
-
-#### Save data ####
-# [...UPDATE THIS...]
-# change the_raw_data to whatever name you assigned when you downloaded it.
-write_csv(the_raw_data, "data/data/raw_data.csv") 
+write_csv(raw_data, "data/01-raw_data/raw_data.csv") 
 
          

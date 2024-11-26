@@ -1,69 +1,39 @@
 #### Preamble ####
-# Purpose: Tests... [...UPDATE THIS...]
-# Author: Rohan Alexander [...UPDATE THIS...]
-# Date: 26 September 2024 [...UPDATE THIS...]
-# Contact: rohan.alexander@utoronto.ca [...UPDATE THIS...]
+# Purpose: Test the analysis dataset.
+# Author: Jing Liang
+# Date: 25 November 2024
+# Contact: jess.liang@mail.utoronto.ca
 # License: MIT
-# Pre-requisites: [...UPDATE THIS...]
-# Any other information needed? [...UPDATE THIS...]
+# Pre-requisites: The `tidyverse`, `testthat`, `arrow` packages must be installed
+# Any other information needed? Make sure you are in the `Residential_Front_Yard_Parking_Etobicoke` rproj
 
 
 #### Workspace setup ####
 library(tidyverse)
 library(testthat)
+library(arrow)
 
-data <- read_csv("data/02-analysis_data/analysis_data.csv")
+analysis_data <- read_parquet("data/02-analysis_data/analysis_data.parquet")
 
 
 #### Test data ####
-# Test that the dataset has 151 rows - there are 151 divisions in Australia
-test_that("dataset has 151 rows", {
-  expect_equal(nrow(analysis_data), 151)
+# Test 1: Check that all ward names are valid
+test_that("All ward names are valid", {
+  valid_ward_names <- c(
+    "Eglinton-Lawrence", "Etobicoke-Lakeshore", "Etobicoke Centre", 
+    "Parkdale-High Park", "Trinity-Spadina", "York Centre", 
+    "York West", "York South-Weston"
+  )
+  expect_true(all(analysis_data$ward %in% valid_ward_names))
 })
 
-# Test that the dataset has 3 columns
-test_that("dataset has 3 columns", {
-  expect_equal(ncol(analysis_data), 3)
+# Test 2: Check that morespace contains only binary values ("No" or "Yes")
+test_that("Morespace column is binary (No or Yes)", {
+  expect_true(all(analysis_data$morespace %in% c("No", "Yes")))
 })
 
-# Test that the 'division' column is character type
-test_that("'division' is character", {
-  expect_type(analysis_data$division, "character")
-})
-
-# Test that the 'party' column is character type
-test_that("'party' is character", {
-  expect_type(analysis_data$party, "character")
-})
-
-# Test that the 'state' column is character type
-test_that("'state' is character", {
-  expect_type(analysis_data$state, "character")
-})
-
-# Test that there are no missing values in the dataset
-test_that("no missing values in dataset", {
-  expect_true(all(!is.na(analysis_data)))
-})
-
-# Test that 'division' contains unique values (no duplicates)
-test_that("'division' column contains unique values", {
-  expect_equal(length(unique(analysis_data$division)), 151)
-})
-
-# Test that 'state' contains only valid Australian state or territory names
-valid_states <- c("New South Wales", "Victoria", "Queensland", "South Australia", "Western Australia", 
-                  "Tasmania", "Northern Territory", "Australian Capital Territory")
-test_that("'state' contains valid Australian state names", {
-  expect_true(all(analysis_data$state %in% valid_states))
-})
-
-# Test that there are no empty strings in 'division', 'party', or 'state' columns
-test_that("no empty strings in 'division', 'party', or 'state' columns", {
-  expect_false(any(analysis_data$division == "" | analysis_data$party == "" | analysis_data$state == ""))
-})
-
-# Test that the 'party' column contains at least 2 unique values
-test_that("'party' column contains at least 2 unique values", {
-  expect_true(length(unique(analysis_data$party)) >= 2)
+# Test 3: Check that parking types are limited to the expected 3 types
+test_that("Parking types are valid", {
+  valid_parking_types <- c("Boulevard Parking", "Front Yard", "Widened Driveway")
+  expect_true(all(analysis_data$parking_type %in% valid_parking_types))
 })
