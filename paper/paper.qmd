@@ -143,7 +143,7 @@ $$
 $$
 
 $$
-\operatorname{logit}\left(\pi_i\right)=\alpha+\beta_1 \text { FrontYard}_i+\beta_2 \text { WidenedDriveway}_i+\gamma_1 \text { EtobicokeCentre}_i+\gamma_2 \text { ParkdaleHighPark}_i+\gamma_3 \text { TrinitySpadina}_i+\gamma_4 \text { YorkCentre}_i+ \\ \gamma_5 \text { YorkSouthWeston}_i+\gamma_6 \text { YorkWest}_i
+\operatorname{logit}\left(\pi_i\right)=\alpha+\beta_1 \text { FrontYard}_i+\beta_2 \text { WidenedDriveway}_i+\gamma_1 \text { EtobicokeCentre}_i+\\\gamma_2 \text { ParkdaleHighPark}_i+\gamma_3 \text { TrinitySpadina}_i+\gamma_4 \text { YorkCentre}_i+ \\ \gamma_5 \text { YorkSouthWeston}_i+\gamma_6 \text { YorkWest}_i
 $$
 
 Here, $\pi_i$ represents the probability that property $i$ has more than one parking space. The intercept $\alpha$ captures the baseline log-odds for properties in Etobicoke-Lakeshore with Boulevard Parking.
@@ -276,10 +276,10 @@ In @fig-ppcheckandposteriorvsprior-2 we compare the posterior with the prior. Th
 #| fig-cap: "Examining how well the model captures the observed data and how the data influence the parameter estimates."
 #| fig-subcap: ["Posterior prediction check compares the observed data with the model's predictions, highlighting how well the model replicates the actual distribution and identifying areas where the fit could improve.", "Comparing the posterior with the prior shows the contrast between the prior and posterior distributions for each parameter, emphasizing how the data contribute to refining parameter estimates and reducing uncertainty."]
 
-pp_check(first_model) +
+pp_check(Bayesian_logit_model) +
   theme_classic() +
   theme(legend.position = "bottom")
-posterior_vs_prior(first_model) +
+posterior_vs_prior(Bayesian_logit_model) +
   theme_minimal() +
   scale_color_brewer(palette = "Set1") +
   theme(legend.position = "bottom") +
@@ -302,14 +302,14 @@ posterior_vs_prior(first_model) +
 #| fig-subcap: ["Trace plot shows the sampling trajectories of four MCMC chains for each parameter in the model. The consistent oscillations across the chains, within a stable range, indicate good mixing and convergence, ensuring the samples are representative of the posterior distribution.", "Rhat plot illustrates the Gelman-Rubin diagnostic (Rhat) for each parameter. All Rhat values are close to 1, signifying that the chains have converged and there is minimal between-chain variability, confirming the reliability of the posterior estimates."]
 #| layout-ncol: 2
 
-plot(first_model, "trace")
+plot(Bayesian_logit_model, "trace")
 
-plot(first_model, "rhat")
+plot(Bayesian_logit_model, "rhat")
 ```
 
 # Survey details {#sec-survey-details}
 
-**Importance of Surveys and Sampling in Open Data**
+## Overview of Survey Design
 
 Surveys and sampling techniques are foundational to data collection in many of the datasets hosted on the City of Toronto's Open Data Portal. These datasets often include observational data derived from surveys conducted by city departments to inform public policies, track progress on civic issues, or manage resources effectively. Understanding the nuances of surveys and sampling methods is essential for interpreting such data accurately, ensuring its quality, and recognizing its limitations.
 
