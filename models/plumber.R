@@ -3,7 +3,7 @@ library(rstanarm)
 library(tidyverse)
 
 # Load the model
-model <- readRDS("logistic_model.rds")
+model <- readRDS("Bayesian_logistic_model.rds")
 
 # Define the model version
 version_number <- "0.0.1"
