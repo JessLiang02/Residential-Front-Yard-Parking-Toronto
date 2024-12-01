@@ -377,6 +377,56 @@ When using open data for research or policy-making, understanding the underlying
 
 This appendix underscores the significance of understanding surveys, sampling, and observational data when working with open datasets. These principles are crucial for ensuring that analyses are robust and aligned with the inherent characteristics of the data.
 
+## Idealized Survey Design
+
+To enhance the quality and representativeness of the "Residential Front Yard Parking" dataset, an idealized survey design would incorporate a stratified random sampling approach with robust data collection protocols. The survey would focus on gathering comprehensive data on licensed parking spaces, parking type, and associated structural and locational characteristics across all Toronto wards. This survey design would ensure high data reliability and validity while being resource-efficient through careful budget allocation and planning.
+
+**Budget Allocation and Staff Recruitment**
+
+A well-planned survey requires a structured budget to cover personnel, equipment, and operational costs. For this survey, the following budget allocation is proposed:
+
+- Survey staff: A team of 12 field surveyors, each earning \$50,000 annually, would be tasked with data collection across different wards, resulting in a staff budget of \$600,000. Additionally, three data analysts (\$70,000 per year each) would process, clean, and analyze the data, adding another \$210,000. A project manager ($90,000 annually) would oversee the entire operation, ensuring timelines and objectives are met.
+
+- Training: initial training sessions for the survey team on data collection protocols, ethical guidelines, and technical tools would require a one-time investment of \$15,000, with $5,000 allocated annually for refresher training.
+
+- Data collection tools: Portable devices, such as tablets with GPS capabilities, would be provided to each surveyor for real-time data entry and geotagging. The estimated cost for 15 devices (12 for field surveyors and 3 as backups) is $30,000. Calibration tools for measuring parking dimensions and verifying vehicle counts would cost an additional \$10,000.
+
+- Operational costs: Monthly travel allowances for surveyors, estimated at \$500 per person, would result in \$72,000 annually. Miscellaneous expenses, such as printing survey forms, purchasing software licenses, and contingency funds, would require \$50,000.
+
+- Outreach and recruitment: To recruit staff, a \$10,000 marketing budget would be allocated to advertise job postings and conduct interviews. For public engagement, an additional \$15,000 would be allocated to run community information sessions, encouraging property owners to participate.
+
+In total, the annual budget for this idealized survey design is approximately $1 million, ensuring high-quality data collection and analysis.
+
+**Data Collection Protocol and Costs**
+
+The survey would use stratified random sampling, dividing Toronto into strata based on wards and neighborhoods. Within each stratum, random samples of residential properties with front yard parking would be selected to ensure representativeness across geographic and demographic dimensions. A target sample size of 10,000 properties is proposed, offering a margin of error of less than 1% for city-wide estimates and allowing for meaningful analysis at the ward level.
+
+- Survey timing: Data collection would be conducted over a 12-month period to capture seasonal variations in parking behavior. For instance, winter months might reveal the impact of snow clearance on parking availability, while summer months might highlight peak usage patterns.
+
+- Protocol: Field surveyors would visit selected properties to collect observational data, including parking type, the number of licensed spaces, and dimensions of the parking area. Each observation would be geotagged using GPS-enabled tablets to ensure precise spatial mapping. Surveyors would also record contextual variables, such as proximity to public transit and adjacent land use.
+
+- Digital integration: Data entry would occur in real time via a custom-built mobile application to minimize transcription errors. The app would include dropdown menus for categorical data, photo upload functionality for verification, and automated validation checks to flag inconsistencies.
+
+- Quality assurance: Weekly audits would be conducted on 10% of the collected data to ensure accuracy and consistency. Analysts would cross-check recorded data with licensing records and flag discrepancies for follow-up by field staff.
+
+Cost Summary:
+
+- Staffing: \$900,000 (including surveyors, analysts, and a project manager)
+
+- Equipment and Tools: \$40,000 (tablets, calibration tools)
+
+- Operational Expenses: \$72,000 (travel) + \$50,000 (miscellaneous)
+
+- Training and Outreach: \$30,000
+
+- Quality Assurance: Incorporated within the analyst budget.
+
+Total Estimated Cost: \$1.1 million annually
+
+**Broader Impacts**
+
+This idealized survey design ensures a high-quality dataset that is representative of Toronto's diverse neighborhoods. By addressing sampling biases, integrating digital tools, and implementing rigorous quality assurance protocols, this survey would significantly improve the reliability and usability of the residential parking dataset. The insights derived could inform zoning reforms, urban planning policies, and targeted interventions to optimize residential parking across the city.
+
 \newpage
 
 # References
