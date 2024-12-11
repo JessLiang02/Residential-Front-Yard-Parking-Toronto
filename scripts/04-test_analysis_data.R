@@ -37,3 +37,15 @@ test_that("Parking types are valid", {
   valid_parking_types <- c("Boulevard Parking", "Front Yard", "Widened Driveway")
   expect_true(all(analysis_data$parking_type %in% valid_parking_types))
 })
+
+# Test 4: Check that the dataset has exactly 17,527 rows
+test_that("Dataset has 17,527 rows", {
+  expect_equal(nrow(analysis_data), 17527)
+})
+
+# Test 5: Check that there are no missing values in the dataset
+test_that("No missing values in ward, parking_type, or morespace columns", {
+  expect_false(any(is.na(analysis_data$ward)))
+  expect_false(any(is.na(analysis_data$parking_type)))
+  expect_false(any(is.na(analysis_data$morespace)))
+})
